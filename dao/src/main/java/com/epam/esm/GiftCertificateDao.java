@@ -1,12 +1,8 @@
 package com.epam.esm;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.util.MultiValueMap;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface GiftCertificateDao extends EntityDao<GiftCertificate, Long> {
-    Page<GiftCertificate> findWithFilters(MultiValueMap<String, String> fields, Pageable pageable);
+public interface GiftCertificateDao extends JpaRepository<GiftCertificate, Long> , CustomCertificateDao {
 
-    GiftCertificate update(GiftCertificate giftCertificate);
 }

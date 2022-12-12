@@ -1,26 +1,23 @@
 package com.epam.esm.impl;
 
-import com.epam.esm.AbstractDao;
+import com.epam.esm.CustomOrderDao;
 import com.epam.esm.Order;
-import com.epam.esm.OrderDao;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 @Transactional
-public class OrderDaoImpl extends AbstractDao<Order, Long> implements OrderDao {
-
-    @Autowired
-    public OrderDaoImpl() {
-        super(Order.class);
-    }
+public class OrderDaoImpl implements CustomOrderDao {
+    @PersistenceContext
+    protected EntityManager entityManager;
 
     @Override
     public Page<Order> findUsersOrders(Long id, Pageable pageable) {

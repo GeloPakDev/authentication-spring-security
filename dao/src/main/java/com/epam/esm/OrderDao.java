@@ -1,12 +1,6 @@
 package com.epam.esm;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
-
-public interface OrderDao extends EntityDao<Order, Long> {
-    Page<Order> findUsersOrders(Long id, Pageable pageable);
-
-    Optional<Order> findUserOrderById(Long userId, Long orderId);
+public interface OrderDao extends JpaRepository<Order, Long> , CustomOrderDao {
 }

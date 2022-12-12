@@ -1,18 +1,21 @@
 package com.epam.esm.impl;
 
-import com.epam.esm.AbstractDao;
+import com.epam.esm.CustomTagDao;
 import com.epam.esm.Tag;
-import com.epam.esm.TagDao;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class TagDaoImpl extends AbstractDao<Tag, Long> implements TagDao {
+public class TagDaoImpl implements CustomTagDao {
+
+    @PersistenceContext
+    protected EntityManager entityManager;
 
     public static final String POPULAR =
             "SELECT t " +
@@ -32,10 +35,6 @@ public class TagDaoImpl extends AbstractDao<Tag, Long> implements TagDao {
                     "ORDER BY COUNT(t.id)";
 
 
-    @Autowired
-    public TagDaoImpl() {
-        super(Tag.class);
-    }
 
     @Override
     public Page<Tag> findTheMostPopularTagsOfUsesOrders(Pageable pageable) {

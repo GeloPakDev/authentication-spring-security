@@ -1,10 +1,9 @@
 package com.epam.esm.impl;
 
-import com.epam.esm.AbstractDao;
+import com.epam.esm.CustomCertificateDao;
 import com.epam.esm.GiftCertificate;
-import com.epam.esm.GiftCertificateDao;
-import com.epam.esm.creator.QueryCreator;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.epam.esm.creator.impl.GiftCertificateQueryCreator;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -12,20 +11,21 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 @Repository
 @Transactional
-public class GiftCertificateDaoImpl extends AbstractDao<GiftCertificate, Long> implements GiftCertificateDao {
-    private final QueryCreator<GiftCertificate> queryCreator;
+@RequiredArgsConstructor
+public class GiftCertificateDaoImpl  implements CustomCertificateDao {
 
-    @Autowired
-    public GiftCertificateDaoImpl(QueryCreator<GiftCertificate> queryCreator) {
-        super(GiftCertificate.class);
-        this.queryCreator = queryCreator;
-    }
+    @PersistenceContext
+    protected EntityManager entityManager;
+    private final GiftCertificateQueryCreator queryCreator;
+
 
     @Override
     public Page<GiftCertificate> findWithFilters(MultiValueMap<String, String> fields, Pageable pageable) {
@@ -43,8 +43,4 @@ public class GiftCertificateDaoImpl extends AbstractDao<GiftCertificate, Long> i
         return new PageImpl<>(list, pageable, count);
     }
 
-    @Override
-    public GiftCertificate update(GiftCertificate giftCertificate) {
-        return entityManager.merge(giftCertificate);
-    }
 }
