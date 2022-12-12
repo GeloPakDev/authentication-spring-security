@@ -1,5 +1,5 @@
 import com.epam.esm.Tag;
-import com.epam.esm.impl.TagDaoImpl;
+import com.epam.esm.TagDao;
 import com.epam.esm.service.impl.TagServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class TagServiceTest {
     @Mock
-    private TagDaoImpl tagDao = Mockito.mock(TagDaoImpl.class);
+    private TagDao tagDao = Mockito.mock(TagDao.class);
 
     @InjectMocks
     private TagServiceImpl tagService;
@@ -81,21 +81,10 @@ class TagServiceTest {
 
     @Test
     void testCreateTag() {
-        when(tagDao.create(TAG_1)).thenReturn(TAG_1);
+        when(tagDao.save(TAG_1)).thenReturn(TAG_1);
 
         Tag actual = tagService.create(TAG_1);
 
         assertEquals(TAG_1, actual);
     }
-
-    @Test
-    void testDeleteTag() {
-        when(tagDao.findById(1L)).thenReturn(Optional.of(TAG_1));
-        when(tagDao.deleteById(1L)).thenReturn(TAG_1);
-
-        Tag actual = tagService.delete(1L);
-
-        assertEquals(TAG_1, actual);
-    }
-
 }

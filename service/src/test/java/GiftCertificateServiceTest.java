@@ -1,6 +1,6 @@
 import com.epam.esm.GiftCertificate;
+import com.epam.esm.GiftCertificateDao;
 import com.epam.esm.Tag;
-import com.epam.esm.impl.GiftCertificateDaoImpl;
 import com.epam.esm.service.impl.GiftCertificateImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
 public class GiftCertificateServiceTest {
 
     @Mock
-    private GiftCertificateDaoImpl giftCertificateDao = Mockito.mock(GiftCertificateDaoImpl.class);
+    private GiftCertificateDao giftCertificateDao = Mockito.mock(GiftCertificateDao.class);
 
     @InjectMocks
     private GiftCertificateImpl giftCertificateService;
@@ -95,7 +95,7 @@ public class GiftCertificateServiceTest {
 
     @Test
     void testCreate() {
-        when(giftCertificateDao.create(GIFT_CERTIFICATE_3)).thenReturn(GIFT_CERTIFICATE_3);
+        when(giftCertificateDao.save(GIFT_CERTIFICATE_3)).thenReturn(GIFT_CERTIFICATE_3);
 
         GiftCertificate actual = giftCertificateService.create(GIFT_CERTIFICATE_3);
 
@@ -105,7 +105,7 @@ public class GiftCertificateServiceTest {
     @Test
     void testUpdate() {
         when(giftCertificateDao.findById(GIFT_CERTIFICATE_3.getId())).thenReturn(Optional.of(GIFT_CERTIFICATE_3));
-        when(giftCertificateDao.update(GIFT_CERTIFICATE_3)).thenReturn(GIFT_CERTIFICATE_3);
+        when(giftCertificateDao.save(GIFT_CERTIFICATE_3)).thenReturn(GIFT_CERTIFICATE_3);
 
         GiftCertificate actual = giftCertificateService.update(GIFT_CERTIFICATE_3.getId(), GIFT_CERTIFICATE_3);
         assertEquals(GIFT_CERTIFICATE_3, actual);

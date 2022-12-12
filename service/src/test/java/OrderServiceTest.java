@@ -1,6 +1,6 @@
 import com.epam.esm.GiftCertificate;
 import com.epam.esm.Order;
-import com.epam.esm.impl.OrderDaoImpl;
+import com.epam.esm.OrderDao;
 import com.epam.esm.service.impl.OrderServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 public class OrderServiceTest {
 
     @Mock
-    private OrderDaoImpl orderDao = Mockito.mock(OrderDaoImpl.class);
+    private OrderDao orderDao = Mockito.mock(OrderDao.class);
 
     @InjectMocks
     private OrderServiceImpl orderService;
