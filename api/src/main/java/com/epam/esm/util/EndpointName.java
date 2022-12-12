@@ -1,9 +1,8 @@
 package com.epam.esm.util;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class EndpointName {
 
     public static final String BASE_URL = "/api";
@@ -15,4 +14,6 @@ public final class EndpointName {
     public static final String FILTER = "/filter";
     public static final String ID = "/{id}";
     public static final String USER_ORDER_ID = "/{orderId}";
+    public static final String REGISTRATION = "/register";
+    public static final String AUTHENTICATION = "/auth";
 }

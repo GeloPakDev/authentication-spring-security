@@ -1,9 +1,8 @@
 package com.epam.esm;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class ColumnName {
 
     //For Gift_Certificate Table
@@ -22,6 +21,9 @@ public final class ColumnName {
     //For user Table
     public static final String USER_TABLE_NAME = "user";
     public static final String USER_NAME = "name";
+    public static final String USER_EMAIL = "email";
+    public static final String USER_PASSWORD = "password";
+    public static final String USER_ROLE = "role";
 
     //For Order table
     public static final String ORDER_TABLE_NAME = "orders";
