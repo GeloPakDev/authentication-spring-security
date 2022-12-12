@@ -15,7 +15,7 @@ public interface TagService {
 
     Tag create(Tag entity);
 
-    Tag delete(Long id);
+    void delete(Long id);
 
     Optional<Tag> findByName(String name);
 
