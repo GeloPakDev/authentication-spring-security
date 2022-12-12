@@ -9,14 +9,21 @@ import com.epam.esm.hateoas.assemblers.GiftModelAssembler;
 import com.epam.esm.response.ResponseHandler;
 import com.epam.esm.response.ResponseMessage;
 import com.epam.esm.service.GiftCertificateService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
@@ -37,6 +44,7 @@ import static com.epam.esm.util.QueryParam.*;
 @RestController
 @RequestMapping(path = BASE_URL, produces = JSON)
 @CrossOrigin(origins = CORSConfig.LOCALHOST)
+@RequiredArgsConstructor
 public class GiftCertificateController {
 
     private final GiftCertificateService giftCertificateService;
@@ -44,17 +52,6 @@ public class GiftCertificateController {
     private final HateoasAdder<GiftCertificateDto> hateoasAdder;
     private final GiftModelAssembler giftModelAssembler;
     private final PagedResourcesAssembler<GiftCertificate> pagedResourcesAssembler;
-
-
-    @Autowired
-    public GiftCertificateController(GiftCertificateService giftCertificateService, DtoConverter<GiftCertificate, GiftCertificateDto> dtoConverter, HateoasAdder<GiftCertificateDto> hateoasAdder, GiftModelAssembler giftModelAssembler, PagedResourcesAssembler<GiftCertificate> pagedResourcesAssembler) {
-        this.giftCertificateService = giftCertificateService;
-        this.dtoConverter = dtoConverter;
-        this.hateoasAdder = hateoasAdder;
-        this.giftModelAssembler = giftModelAssembler;
-        this.pagedResourcesAssembler = pagedResourcesAssembler;
-    }
-
     //GET mappings
 
     /**
@@ -155,9 +152,7 @@ public class GiftCertificateController {
     @RequestMapping(value = GIFT_CERTIFICATES, params = REQUEST_ID, method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Object> deleteGiftCertificate(@RequestParam Long id) {
-        GiftCertificate gift = giftCertificateService.delete(id);
-        GiftCertificateDto giftCertificateDto = dtoConverter.convertToDto(gift);
-        hateoasAdder.addLinks(giftCertificateDto);
-        return ResponseHandler.generateResponse(ResponseMessage.SUCCESSFULLY_DELETED + id, HttpStatus.OK, giftCertificateDto);
+        giftCertificateService.delete(id);
+        return ResponseHandler.generateResponse(ResponseMessage.SUCCESSFULLY_DELETED + id, HttpStatus.OK);
     }
 }

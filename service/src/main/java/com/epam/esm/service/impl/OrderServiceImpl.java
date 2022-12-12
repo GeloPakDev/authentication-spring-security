@@ -6,6 +6,7 @@ import com.epam.esm.Order;
 import com.epam.esm.OrderDao;
 import com.epam.esm.exception.NoSuchEntityException;
 import com.epam.esm.service.OrderService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,15 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
     private final OrderDao orderDao;
     private final GiftCertificateDao giftCertificateDao;
-
-    public OrderServiceImpl(OrderDao orderDao, GiftCertificateDao giftCertificateDao) {
-        this.orderDao = orderDao;
-        this.giftCertificateDao = giftCertificateDao;
-    }
 
     @Override
     public Page<Order> findAll(int page, int size) {
@@ -66,6 +63,6 @@ public class OrderServiceImpl implements OrderService {
             }
         }
         order.setGifts(gifts);
-        return orderDao.create(order);
+        return orderDao.save(order);
     }
 }

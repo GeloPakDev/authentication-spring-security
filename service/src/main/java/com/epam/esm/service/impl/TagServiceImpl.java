@@ -3,6 +3,7 @@ package com.epam.esm.service.impl;
 import com.epam.esm.Tag;
 import com.epam.esm.TagDao;
 import com.epam.esm.service.TagService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,12 +15,9 @@ import java.util.Optional;
 
 
 @Service
+@RequiredArgsConstructor
 public class TagServiceImpl implements TagService {
     private final TagDao tagDao;
-
-    public TagServiceImpl(TagDao tagDao) {
-        this.tagDao = tagDao;
-    }
 
     @Override
     public Optional<Tag> findById(Long id) {
@@ -34,17 +32,17 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Tag create(Tag entity) {
-        return tagDao.create(entity);
+        return tagDao.save(entity);
     }
 
     @Override
     @Transactional
-    public Tag delete(Long id) {
+    public void delete(Long id) {
         Optional<Tag> tag = tagDao.findById(id);
         if (tag.isEmpty()) {
             throw new NoSuchElementException();
         }
-        return tagDao.deleteById(id);
+        tagDao.deleteById(id);
     }
 
     @Override

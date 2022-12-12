@@ -1,13 +1,13 @@
 package com.epam.esm.service.impl;
 
 import com.epam.esm.GiftCertificate;
+import com.epam.esm.GiftCertificateDao;
 import com.epam.esm.exception.ExceptionResult;
 import com.epam.esm.exception.IncorrectParameterException;
 import com.epam.esm.exception.NoResultByFiltersException;
-import com.epam.esm.impl.GiftCertificateDaoImpl;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.validator.GiftValidator;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,13 +20,10 @@ import java.util.*;
 
 
 @Service
+@RequiredArgsConstructor
 public class GiftCertificateImpl implements GiftCertificateService {
-    private final GiftCertificateDaoImpl giftCertificateDao;
+    private final GiftCertificateDao giftCertificateDao;
 
-    @Autowired
-    public GiftCertificateImpl(GiftCertificateDaoImpl giftCertificateDao) {
-        this.giftCertificateDao = giftCertificateDao;
-    }
 
     //GET operations
     @Override
@@ -63,18 +60,18 @@ public class GiftCertificateImpl implements GiftCertificateService {
         giftCertificate.setCreateDate(LocalDateTime.now());
         giftCertificate.setLastUpdateDate(LocalDateTime.now());
 
-        return giftCertificateDao.create(giftCertificate);
+        return giftCertificateDao.save(giftCertificate);
     }
 
     //DELETE operations
     @Override
     @Transactional
-    public GiftCertificate delete(Long id) {
+    public void delete(Long id) {
         Optional<GiftCertificate> gift = giftCertificateDao.findById(id);
         if (gift.isEmpty()) {
             throw new NoSuchElementException();
         }
-        return giftCertificateDao.deleteById(id);
+        giftCertificateDao.deleteById(id);
     }
     //UPDATE operations
 
@@ -99,7 +96,7 @@ public class GiftCertificateImpl implements GiftCertificateService {
         //Get Updated giftCertificate
         GiftCertificate updatedGift = updateGiftCertificate(giftCertificate, gift);
         //Update GiftCertificate
-        return giftCertificateDao.update(updatedGift);
+        return giftCertificateDao.save(updatedGift);
     }
 
 

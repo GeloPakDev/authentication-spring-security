@@ -9,13 +9,17 @@ import com.epam.esm.hateoas.assemblers.UserModelAssembler;
 import com.epam.esm.response.ResponseHandler;
 import com.epam.esm.response.ResponseMessage;
 import com.epam.esm.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
@@ -36,6 +40,7 @@ import static com.epam.esm.util.QueryParam.*;
 @RestController
 @RequestMapping(path = BASE_URL, produces = JSON)
 @CrossOrigin(origins =  CORSConfig.LOCALHOST)
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
@@ -43,15 +48,6 @@ public class UserController {
     private final HateoasAdder<UserDto> hateoasAdder;
     private final UserModelAssembler userModelAssembler;
     private final PagedResourcesAssembler<User> pagedResourcesAssembler;
-
-    @Autowired
-    public UserController(UserService userService, DtoConverter<User, UserDto> dtoConverter, HateoasAdder<UserDto> hateoasAdder, UserModelAssembler userModelAssembler, PagedResourcesAssembler<User> pagedResourcesAssembler) {
-        this.userService = userService;
-        this.dtoConverter = dtoConverter;
-        this.hateoasAdder = hateoasAdder;
-        this.userModelAssembler = userModelAssembler;
-        this.pagedResourcesAssembler = pagedResourcesAssembler;
-    }
 
     /**
      * Method for fetching User by ID.

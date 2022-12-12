@@ -9,13 +9,21 @@ import com.epam.esm.hateoas.assemblers.TagModelAssembler;
 import com.epam.esm.response.ResponseHandler;
 import com.epam.esm.response.ResponseMessage;
 import com.epam.esm.service.TagService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
@@ -35,7 +43,8 @@ import static com.epam.esm.util.QueryParam.*;
  */
 @RestController
 @RequestMapping(path = BASE_URL + TAGS, produces = JSON)
-@CrossOrigin(origins =  CORSConfig.LOCALHOST)
+@CrossOrigin(origins = CORSConfig.LOCALHOST)
+@RequiredArgsConstructor
 public class TagController {
 
     private final TagService tagService;
@@ -43,15 +52,6 @@ public class TagController {
     private final HateoasAdder<TagDto> hateoasAdder;
     private final TagModelAssembler tagModelAssembler;
     private final PagedResourcesAssembler<Tag> pagedResourcesAssembler;
-
-    @Autowired
-    public TagController(TagService tagService, DtoConverter<Tag, TagDto> dtoConverter, HateoasAdder<TagDto> hateoasAdder, TagModelAssembler tagModelAssembler, PagedResourcesAssembler<Tag> pagedResourcesAssembler) {
-        this.tagService = tagService;
-        this.dtoConverter = dtoConverter;
-        this.hateoasAdder = hateoasAdder;
-        this.tagModelAssembler = tagModelAssembler;
-        this.pagedResourcesAssembler = pagedResourcesAssembler;
-    }
 
     //GET mappings
 
@@ -133,6 +133,7 @@ public class TagController {
     }
 
     //POST mappings
+
     /**
      * Method for creating Tag
      *
@@ -149,6 +150,7 @@ public class TagController {
     }
 
     //DELETE mappings
+
     /**
      * Method for deleting Tag
      *
@@ -158,9 +160,7 @@ public class TagController {
     @RequestMapping(params = REQUEST_ID, method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Object> deleteTag(@RequestParam Long id) {
-        Tag createdTag = tagService.delete(id);
-        TagDto tagDto = dtoConverter.convertToDto(createdTag);
-        hateoasAdder.addLinks(tagDto);
-        return ResponseHandler.generateResponse(ResponseMessage.SUCCESSFULLY_DELETED_TAG + id, HttpStatus.OK, tagDto);
+        tagService.delete(id);
+        return ResponseHandler.generateResponse(ResponseMessage.SUCCESSFULLY_DELETED_TAG + id, HttpStatus.OK);
     }
 }
