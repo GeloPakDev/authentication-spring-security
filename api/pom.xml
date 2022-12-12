@@ -13,6 +13,8 @@
     <version>1.0.0</version>
     <properties>
         <spring.boot.version>2.7.5</spring.boot.version>
+        <spring.security.version>2.7.6</spring.security.version>
+        <jwt.version>0.9.1</jwt.version>
     </properties>
 
     <dependencies>
@@ -30,6 +32,17 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-hateoas</artifactId>
             <version>${spring.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jwt.version}</version>
         </dependency>
     </dependencies>
 </project>
