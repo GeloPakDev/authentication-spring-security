@@ -7,14 +7,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserDtoConverter implements DtoConverter<User, UserDto> {
-
     @Override
     public User convertToEntity(UserDto dto) {
         User user = new User();
 
         user.setId(dto.getId());
+        user.setEmail(dto.getEmail());
+        user.setPassword(dto.getPassword());
+        user.setRole(dto.getRole());
         user.setName(dto.getName());
-        user.setOrders(dto.getOrders());
 
         return user;
     }
@@ -24,9 +25,12 @@ public class UserDtoConverter implements DtoConverter<User, UserDto> {
         UserDto userDto = new UserDto();
 
         userDto.setId(entity.getId());
+        userDto.setEmail(entity.getEmail());
+        userDto.setRole(entity.getRole());
+        userDto.setPassword(entity.getPassword());
         userDto.setName(entity.getName());
-        userDto.setOrders(entity.getOrders());
 
         return userDto;
     }
+
 }
