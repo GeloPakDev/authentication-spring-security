@@ -6,7 +6,7 @@
 
     <groupId>com.epam.esm</groupId>
     <artifactId>authentication-spring-security</artifactId>
-    <packaging>war</packaging>
+    <packaging>pom</packaging>
     <version>1.0.0</version>
     <modules>
         <module>api</module>
